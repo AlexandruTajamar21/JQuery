@@ -56,23 +56,26 @@
             if (resultado == "0") {
                 $("#Diadelasemana").text("Sabado");
             }
-            if (resultado == "1") {
+            else if (resultado == "1") {
                 $("#Diadelasemana").text("Domingo");
             }
-            if (resultado == "2") {
+            else if (resultado == "2") {
                 $("#Diadelasemana").text("Lunes");
             }
-            if (resultado == "3") {
+            else if (resultado == "3") {
                 $("#Diadelasemana").text("Martes");
             }
-            if (resultado == "4") {
+            else if (resultado == "4") {
                 $("#Diadelasemana").text("Miercoles");
             }
-            if (resultado == "5") {
+            else if (resultado == "5") {
                 $("#Diadelasemana").text("Jueves");
             }
-            if (resultado == "6") {
+            else if (resultado == "6") {
                 $("#Diadelasemana").text("Viernes");
+            }
+            else{
+                $("#Diadelasemana").text("Respuesta Erronea");
             }
 
         });
