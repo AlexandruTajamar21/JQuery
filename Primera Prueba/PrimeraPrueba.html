@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .rojo{
+            color: red;
+        }
+        .verde{
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Titulo1</h1>
+    <h1>Titulo2</h1>
+    <h1>Titulo3</h1>
+    <h2>Titulo4</h2>
+    <button>Soy el boton 1</button>
+</body>
+<body>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            //alert("Utilizando Jquery!!!");
+            //Selectores de etiquetas
+            //Acciones/ordenes
+            $("h1").hide();
+            //Eventos/listeners
+            $("button").click(function(){
+                $(".rojo").toggle();
+            })
+            $("h1").addClass("rojo");
+            $(".rojo").click(function(){
+                $(this).fadeOut(3000);
+            })
+        });
+    </script>
+</body>

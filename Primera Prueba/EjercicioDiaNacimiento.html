@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Ejercicio de seleccion de Mayor/Menor</h1>
+    <label>Dia:</label>
+    <input type="number" min="0" max="31" id="dia">
+    <br/>
+
+    <label>Mes:</label>
+    <input type="number" min="0" max="12" id="mes">
+    <br/>
+
+    <label>Año:</label>
+    <input type="number" min="1900" max="2021" id="año">
+    <br/>
+
+    <button type="button" id="botonMostrar">MostrarDia</button>
+
+    <h1 id="Diadelasemana"></h1>
+
+    <script src="../jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $("#botonMostrar").click(function(){
+            var dia = $("#dia").val();
+            var mes = 0;
+            if (mes == 1) {
+                mes = 13;
+            }
+            if (mes == 2) {
+                mes = 14;
+            }
+            else
+            {
+                mes = $("#mes").val();
+            }
+            var año = $("#año").val();
+
+            var operacion1 = ((parseInt(mes) + 1)*3)/5;
+            var operacion2 = parseInt(año)/4;
+            var operacion3 = parseInt(año)/100;
+            var operacion4 = parseInt(año)/400;
+
+            var cuenta = dia+(mes*2)+parseInt(año)+(parseInt(operacion1))+(parseInt(operacion2))-(parseInt(operacion3))+(parseInt(operacion4)) + 2;
+            var operacion6 = parseInt(cuenta)/7;
+            var resultado = parseInt(cuenta) - (parseInt(operacion6)*7)
+
+
+            if (resultado == "0") {
+                $("#Diadelasemana").text("Sabado");
+            }
+            if (resultado == "1") {
+                $("#Diadelasemana").text("Domingo");
+            }
+            if (resultado == "2") {
+                $("#Diadelasemana").text("Lunes");
+            }
+            if (resultado == "3") {
+                $("#Diadelasemana").text("Martes");
+            }
+            if (resultado == "4") {
+                $("#Diadelasemana").text("Miercoles");
+            }
+            if (resultado == "5") {
+                $("#Diadelasemana").text("Jueves");
+            }
+            if (resultado == "6") {
+                $("#Diadelasemana").text("Viernes");
+            }
+
+        });
+    })
+    </script>            
+</body>
+</html>
