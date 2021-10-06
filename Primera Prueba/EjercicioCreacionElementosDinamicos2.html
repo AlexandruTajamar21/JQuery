@@ -16,7 +16,6 @@
         $(document).ready(function(){
 
             $(document).on('change', '#cajaRango', function() {
-
                 var numImagenes = $("#cajaRango").val();
                 $("#padre").empty();
                 for(var i = 0; i < numImagenes;i++)
@@ -29,7 +28,6 @@
                     h1.mouseover(function(){
                         $(this).attr("src","../Imagenes/BatmanLogo.jpg")
                     });
-                    
                     h1.mouseout(function(){
                         $(this).attr("src","../Imagenes/Jquery.jpg")
                     });
