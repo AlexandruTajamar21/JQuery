@@ -48,7 +48,7 @@
             var operacion3 = parseInt(año)/100;
             var operacion4 = parseInt(año)/400;
 
-            var cuenta = dia+(mes*2)+parseInt(año)+(parseInt(operacion1))+(parseInt(operacion2))-(parseInt(operacion3))+(parseInt(operacion4)) + 2;
+            var cuenta = parseInt(dia)+(parseInt(mes)*2)+parseInt(año)+(parseInt(operacion1))+(parseInt(operacion2))-(parseInt(operacion3))+(parseInt(operacion4)) + 2;
             var operacion6 = parseInt(cuenta)/7;
             var resultado = parseInt(cuenta) - (parseInt(operacion6)*7)
 
