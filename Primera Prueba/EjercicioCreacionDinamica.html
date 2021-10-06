@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Gneracion de controles dinamicos</h1>
+    <label>Introduzca el texto</label>
+    <input type="text" id="cajatexto"/>
+    <button id="btnCrear">Crear titulo</button>
+    <div id="padre"></div>
+
+    <script src="../jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            
+            $("h1").click(function() {
+                alert("Soy un H1");
+            });
+            
+            $("#btnCrear").click(function(){
+            var texto = $("#cajatexto").val();
+                //Controles sin JSON
+                /*
+                var h1 = $("<h1>");
+                h1.text(texto);
+                h1.css("color","red");
+                $("#padre").append(h1);
+                */
+                //Controles usando JSON
+                var h1 = $("<h1>", {
+                    "text":texto
+                    ,"style": "color:blue"
+                });
+                h1.appendTo($("#padre"));
+                h1.mouseover(function(){
+                    var texto = $("#cajatexto").val();
+                    //alert(texto);
+                    $(this).text(texto);
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
