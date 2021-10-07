@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Gneracion de imagenes dinamicos</h1>
+    <input type="range" min="1" max="10" value="1" id="cajaRango"/>
+    <div id="padreBotones"></div>
+    <div id="padreImagenes"></div>
+
+    <script src="../jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            $(document).on('change', '#cajaRango', function() {
+                var numImagenes = $("#cajaRango").val();
+                $("#padreBotones").empty();
+                $("#padreImagenes").empty();
+                for(var i = 0; i < numImagenes;i++)
+                {
+                    var h1 = $("<img>", {
+                        "src": "../Imagenes/Jquery.jpg",
+                        "data-num": i
+                    });
+                    h1.appendTo($("#padreImagenes"));
+                    var boton = $("<button>", {
+                        "text":("Imagen: " + i),
+                        "data-num": i
+                    })
+                    boton.appendTo($("#padreBotones"));
+                    boton.click(function(){
+                        var posicion = $(this).data("num");
+                        $("img[data-num="  + posicion + "]").attr("src", "../Imagenes/BatmanLogo.jpg");
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
