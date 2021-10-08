@@ -15,12 +15,9 @@
     <script>
         $(document).ready(function(){
             $("#dibujarBotones").click(function(){
-                $.get("../XML/departamentosetiquetas.xml")
-                $.get("../XML/depar", function(data){
+                $.get("../XML/departamentosetiquetas.xml", function(data){
                     var i = 0;
                     $(data).find("DEPARTAMENTO").each(function(){
-                        
-                        var html = "";
                         var numDepartamento = $(this).find("NUMERO").text();
                         
                         var boton = $("<button>" , {
@@ -28,27 +25,19 @@
                             "value" : numDepartamento
                         });
                         i++;
-                        /*
-                        var h1 = $("<h1>" , {
-                            "text": "Detalles " + numDepartamento
-                        });
-                        */ 
-                        //html += "<h1>" + numDepartamento + "</h1>";
-                        //console.log(h1);
                         $("#contenedor").append(boton);
-                        //$("#contenedor").html(html);
                         boton.click(function(){
-                            var html_2 = "";
+                            var html = "";
                             var num_dep_rec = $(this).val();
                             $(data).find("DEPARTAMENTO").each(function(){
                                 var numDepartamento_2 = $(this).find("NUMERO").text();
                                 if(numDepartamento_2 == num_dep_rec){
                                     var nombre = $(this).find("NOMBRE").text();
                                     var localidad = $(this).find("LOCALIDAD").text();
-                                    html_2 += "<h1>" + nombre + " ,"  + localidad + "</h1>";
+                                    html += "<h1>" + nombre + " ,"  + localidad + "</h1>";
                                 }
                             });
-                            $("#contenedorDetalles").html(html_2);
+                            $("#contenedorDetalles").html(htmL);
                         });
                     });
                 });
