@@ -1,35 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
-    <h1>Lectura XML simple</h1> 
-    <button type="button" id="botonleer">
-        Cargar datos Empleados
-    </button>
-    <ul id="lista"></ul>
-    <script src="jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#botonleer").click(function() {
-                console.log("Antes servicio");
-                $.get("../XMLs/emmpleados", function(data){
-                    console.log("Leyendo...");
-                    var html = "";
-                    $(data).find("APELLIDO").each(function() {
-                        //RECUPERAMOS EL CONTENIDO DEL TAG
-                        var apellido = $(this).text();
-                        html += "<li>" + apellido + "</li>";
-                    });
-                    $("#lista").html(html);
-                });
-                console.log("Despues servicio");
-            });
-        });
-    </script>
+    <h1>Lectura XML simple</h1>
+    <button type="button" id="botonleer">Cargar datos Empleados</button>
+    <ul id="lista"></ul>
+    <script>
+        $(document).ready(function () {
+            // SENTENCIA JQUERY PARA AÑADIR EL EVENTO CLICK
+            $("#botonleer").click(function () {
+                console.log("Antes servicio");
+                // SENTENCIA JQUERY PARA OBTENER LOS DATOS DEL DOCUMENTO XML
+                $.get("../XML/empleados.xml", function (data) {
+                    console.log("Leyendo...");
+                    // CREACION DE VAR QUE ALMACENARA LOS DATOS
+                    var html = "";
+                    // BUSCAMOS EN DATA LOS NOMBRES, PARA CADA NOMBRE EJECUTAREMOS LA SIGUIENTE FUNCION
+                    $(data).find("nombre").each(function () {
+                        // RECUPERAMO EL CONTENIDO DEL TAG
+                        var nombre = $(this).text();
+                        // CONCATENAMOS LA VARIABLE HTML CON EL NOMBRE, MAS BIEN HACEMOS COMO UNA SUMA, SE PODRIA DECIR QUE EL CONTENIDO LO GUARDAMOS EN VAR HTML
+                        html += "<li>" + nombre + "</li>";
+                    });
+                    // PINTAMOS HTML EN LA LISTA
+                    $("#lista").html(html);
+                });
+                console.log("Despues servicio");
+            });
+        });
+    </script>
 </body>
 </html>
