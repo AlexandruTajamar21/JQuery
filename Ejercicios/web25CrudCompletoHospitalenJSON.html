@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+<body>
+    <h1>Ejemplo CRUD JQUERY</h1>
+    <label>ID: </label><br>
+    <input type="text" id="cajaid" class="form-control"/><br>
+    <label>Nombre: </label><br>
+    <input type="text" id="cajanombre" class="form-control"/><br>
+    <label>Direccion: </label><br>
+    <input type="text" id="cajadireccion" class="form-control"/><br>
+    <label>Telefono: </label><br>
+    <input type="text" id="cajatelefono" class="form-control"/><br>
+    <label>Camas: </label><br>
+    <input type="text" id="cajacamas" class="form-control"/><br><br><br>
+    
+    <button type="button" id="botonInsertar" class="btn btn-secondary btn-lg">Insertar Departamento</button>
+    <button type="button" id="botonModificar" class="btn btn-secondary btn-lg">Modificar Departamento</button>
+    <button type="button" id="botonEliminar" class="btn btn-secondary btn-lg">Eliminar Departamento</button><br><br>
+
+    <table border="1" id="tablaDepartamentos" class="table">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Direccion</th>
+                <th>Telefono</th>
+                <th>Camas</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <script src="../jquery-3.6.0.min.js"></script>
+    <script src="bootstrap.min.js" crossorigin="anonymous"></script>
+    <script>
+        var urlAPI ="https://apicrudhospital.azurewebsites.net/"
+        var ultimoid;
+        var ultimonombre;
+        var ultimadireccion;
+        var ultimotelefono;
+        var ultimascamas;
+        $(document).ready(function(){
+
+            setInterval(cargarHospital,1000);
+            
+
+            $("#botonInsertar").click(function(){
+                var request = "webresources/hospitales/post";
+                var host = getHospital();
+                if (ultimoid == host.idhospital) {
+                    var
+                }
+                $.ajax({
+                    "url":urlAPI + request,
+                    "type":"POST",
+                    "data":host,
+                    "contentType":"application/json"
+                    ,success: function(){
+                        console.log("Insertado");
+                        cargarHospital();
+                    }
+                });
+            });
+
+            $("#botonModificar").click(function(){
+                var request = "webresources/hospitales/put";
+                var host = getHospital();
+                $.ajax({
+                    "url":urlAPI + request,
+                    "type":"PUT",
+                    "data":host,
+                    "contentType":"application/json"
+                    ,success: function(){
+                        console.log("Modificado");
+                        cargarHospital();
+                        
+                    }
+                });
+            });
+
+            $("#botonEliminar").click(function(){
+                var num = $("#cajaid").val();
+                borrarRegistro(num);
+            });
+
+            
+        });
+
+        function getHospital()
+        {
+
+            var host = new Object();
+                host.idhospital = parseInt($("#cajaid").val());
+                host.nombre = $("#cajanombre").val();
+                host.direccion = $("#cajadireccion").val();
+                host.telefono = $("#cajatelefono").val();
+                host.camas = parseInt($("#cajacamas").val());
+
+                var json = JSON.stringify(host);
+
+            return json;
+        }
+
+        function cargarHospital(){
+            var request = "webresources/hospitales";
+            $.getJSON(urlAPI + request,function(data){
+
+                var html = "";
+
+                $.each(data,function(key,value){
+
+                    var id = value.idhospital;
+                    var nom = value.nombre;
+                    var dir = value.direccion;
+                    var tel = value.telefono;
+                    var cam = value.camas;
+
+                    html+= "<tr>";
+                    html+= "<td onclick=subeDatos("+id+")>" + id + "</td>";
+                    html+= "<td onclick=subeDatos("+id+")>" + nom + "</td>";
+                    html+= "<td onclick=subeDatos("+id+")>" + dir + "</td>";
+                    html+= "<td onclick=subeDatos("+id+")>" + tel + "</td>";
+                    html+= "<td onclick=subeDatos("+id+")>" + cam + "</td>";
+                    html+= "<td> <button type=button style=background-color:red onclick=borrarRegistro("+ id +") class=btn btn-secondary btn-lg>Borrar</button></td>"
+                    html+= "<tr>";
+                });
+                $("#tablaDepartamentos tbody").html(html);
+            });
+        };
+        function subeDatos(id){
+
+            var request = "webresources/hospitales";
+            var idBuscado = id;
+            $.getJSON(urlAPI + request,function(data){
+                $.each(data,function(key,value){
+                    if (idBuscado == value.idhospital) {
+
+                        $("#cajaid").val(value.idhospital);
+                        $("#cajanombre").val(value.nombre);
+                        $("#cajadireccion").val(value.direccion);
+                        $("#cajatelefono").val(value.telefono);
+                        $("#cajacamas").val(value.camas);
+                    }
+                });
+            });
+        }
+
+        function borrarRegistro(id){
+            var request = "webresources/hospitales/delete/" + id;
+            if(confirm("Estas seguro que deseas borrar este elemento?")){
+                $.ajax({
+                    "url":urlAPI + request,
+                    "type":"DELETE"
+                    ,success: function(){
+                        console.log("Eliminado");
+                        cargarHospital();
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

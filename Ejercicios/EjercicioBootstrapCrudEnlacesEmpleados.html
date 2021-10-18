@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    
+</head>
+<body>
+    
+    <h1>Ejercicio Selector de Empleados</h1><br>
+
+    <br><label>Introduzca un salario:</label><br>
+    
+    <input type="text" id="salariominimo"/> <br>
+    <button type="button" id="btBusqueda" style="background-color: green;">Buscar Empleados</button><br><br>
+
+    <table border="1" id="tablaDepartamentos" class="table">
+        <thead class="table-dark">
+            <tr>
+                <th>Apellido</th>
+                <th>Oficio</th>
+                <th>Salario</th>
+            </tr>
+        </thead>
+        <tbody class="tbody tbody-striped">
+
+        </tbody>
+    </table>
+    <table border="1" id="tablaEmpleados" class="table">
+        <thead class="table-dark">
+            <tr>
+                <th>Apellido</th>
+                <th>Oficio</th>
+                <th>Salario</th>
+                <th>Departamento</th>
+                <th>IdDepartamento</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+
+    <script src="bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="../jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var urlAPIEmpleados ="https://apiempleadosspgs.azurewebsites.net"
+            $("#btBusqueda").click(function(){
+                var salario = $("#salariominimo").val();
+                var request = "/api/Empleados"
+                $.ajax({
+                    "url": urlAPIEmpleados + request
+                    , success: function(data){
+                        var html = "";
+                        $.each(data, function(index,dept){
+                            if (dept.salario >= salario) {
+                                html+= "<tr>";
+                                html+= "<td onclick=sacaDatos(" + dept.idEmpleado + ")>" + dept.apellido + "</td>";
+                                html+= "<td>" + dept.oficio + "</td>";
+                                html+= "<td>" + dept.salario + "</td>";
+                                html+= "<tr>";
+                            }
+                        });
+                        $("#tablaDepartamentos tbody").html(html);
+                    }
+                });
+            });
+            
+        });
+        function sacaDatos(idEmpleado)
+        {
+            var urlAPIEmpleados ="https://apiempleadosspgs.azurewebsites.net"
+            var request = "/api/Empleados"
+            $.ajax({
+                    "url": urlAPIEmpleados + request
+                    , success: function(data){
+                        var html = "";
+                        $.each(data, function(index,dept){
+                            if (idEmpleado == dept.idEmpleado) {
+                                html+= "<tr>";
+                                html+= "<td>" + dept.apellido + "</td>";
+                                html+= "<td>" + dept.oficio + "</td>";
+                                html+= "<td>" + dept.salario + "</td>";
+                                html+= "<td>" + dept.departamento + "</td>";
+                                html+= "<td>" + dept.idEmpleado + "</td>";
+                                html+= "<tr>";
+                            }
+                        });
+                        $("#tablaEmpleados tbody").html(html);
+                        /*$("td").click(function(){
+                            console.log("funciona");
+                        });*/
+                    }
+                });
+        }
+    </script>
+
+
+</body>
+</html>

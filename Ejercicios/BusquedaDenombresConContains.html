@@ -46,7 +46,7 @@
             });
             $("#botonhospital").click(function () {
                 var codigo = $("#cajahospital").val();
-                $.get("../XML/hospital.xml", function (data) {
+                $.get("../XML/hospital_atributos", function (data) {
                     var filtro = "HOSPITAL[HOSPITAL_COD=" + codigo + "]";
 
                     var nodohospital = $(data).find(filtro).first();

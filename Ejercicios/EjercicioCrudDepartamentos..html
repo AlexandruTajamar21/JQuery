@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Ejemplo CRUD JQUERY</h1>
+    <label>Numero: </label><br>
+    <input type="text" id="cajanumeros"/><br>
+    <label>Nombre: </label><br>
+    <input type="text" id="cajanombre"/><br>
+    <label>Localidad: </label><br>
+    <input type="text" id="cajalocalidad"/><br><br><br>
+    
+    <button type="button" id="botonInsertar">Insertar Departamento</button><br><br>
+    <button type="button" id="botonModificar">Modificar Departamento</button><br><br>
+    <button type="button" id="botonEliminar">Eliminar Departamento</button><br><br>
+
+    <table border="1" id="tablaDepartamentos">
+        <thead>
+            <tr>
+                <th>Numero</th>
+                <th>Nombre</th>
+                <th>Localidad</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <script src="../jquery-3.6.0.min.js"></script>
+    <script>
+        var urlAPI ="https://apicruddepartamentoscore.azurewebsites.net"
+        $(document).ready(function(){
+
+            setInterval(cargarDepartamento,1000)
+            
+
+            $("#botonInsertar").click(function(){
+                var num = $("#cajanumeros").val();
+                var nom = $("#cajanombre").val();
+                var loc = $("#cajalocalidad").val();
+                var request = "/api/Departamentos"
+
+                var dept = new Object();
+                dept.numero = parseInt(num);
+                dept.nombre = nom;
+                dept.localidad = loc;
+
+                var json = JSON.stringify(dept);
+                console.log(json);
+                
+                $.ajax({
+                    "url":urlAPI + request,
+                    "type":"POST",
+                    "data":json,
+                    "contentType":"application/json"
+                    ,success: function(){
+                        console.log("Insertado");
+                        cargarDepartamento();
+                    }
+                });
+            });
+
+            $("#botonModificar").click(function(){
+                var num = $("#cajanumeros").val();
+                var nom = $("#cajanombre").val();
+                var loc = $("#cajalocalidad").val();
+                var request = "/api/Departamentos";
+
+                var dept = new Object();
+                dept.numero = parseInt(num);
+                dept.nombre = nom;
+                dept.localidad = loc;
+
+                var json = JSON.stringify(dept);
+                console.log(json);
+                
+                $.ajax({
+                    "url":urlAPI + request,
+                    "type":"PUT",
+                    "data":json,
+                    "contentType":"application/json"
+                    ,success: function(){
+                        console.log("Modigicado");
+                        cargarDepartamento();
+                    }
+                });
+            });
+
+            $("#botonEliminar").click(function(){
+                var num = $("#cajanumeros").val();
+                var request = "/api/Departamentos/" + num;
+                $.ajax({
+                    "url":urlAPI + request,
+                    "type":"DELETE"
+                    ,success: function(){
+                        console.log("Eliminado");
+                        cargarDepartamento();
+                    }
+                });
+            });
+
+        });
+        function cargarDepartamento(){
+            var request = "/api/Departamentos"
+            $.ajax({
+                "url": urlAPI + request
+                , success: function(data){
+                    var html = "";
+                    $.each(data, function(index,dept){
+                        html+= "<tr>";
+                        html+= "<td>" + dept.numero + "</td>";
+                        html+= "<td>" + dept.nombre + "</td>";
+                        html+= "<td>" + dept.localidad + "</td>";
+                        html+= "<tr>";
+                    });
+                    $("#tablaDepartamentos tbody").html(html);
+                }
+            });
+        };
+    </script>
+</body>
+</html>

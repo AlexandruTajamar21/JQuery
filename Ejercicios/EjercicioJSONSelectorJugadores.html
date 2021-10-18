@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Conjunto</title>
+</head>
+<body>
+    <h1> JSON Conjunto Clientes</h1>
+    <div id="contenido">
+        <select id="jugadores">
+
+        </select>
+        <h1 id="imagen"></h1>
+    </div>
+
+    <script src="../jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                    "url":"../JSON/jugadores.json", "method": "GET", "dataType":"json"
+                    ,success: function(data){
+                        $.each(data.jugadores,function(key,value){
+
+                            var opcion = $("<option>", {
+                                "text": value.nombre,
+                                "value": value.nombre
+                            });
+                            $("#jugadores").append(opcion);
+                        });
+                    }, "error": function(){
+                        $("#contenido").text("Error del servicio");
+                    }
+            });
+            $("#jugadores").change(function(){
+                $.ajax({
+                    "url":"../JSON/jugadores.json", "method": "GET", "dataType":"json"
+                    ,success: function(data){
+                        $.each(data.jugadores,function(key,value){
+                            if ($("#jugadores").val() == value.nombre){
+                                var informacion = "Numero: " + value.numero + ", Nombre: " + value.nombre + ", Posicion: " + value.posicion + ", Edad: " + value.edad;
+                                var imagenJugador = $("<img>", {
+                                "src": value.imagen
+                                });
+                                $("#imagen").empty();
+                                $("#imagen").text(informacion)
+                                $("#imagen").append(imagenJugador);
+                            }
+                        });
+                    }, "error": function(){
+                        $("#contenido").text("Error del servicio");
+                    }
+            });
+            });
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Conjunto</title>
+</head>
+<body>
+    <h1> JSON Conjunto Clientes</h1>
+    <button type="button" id="botonClientes"> Cargar Clientes</button>
+    <div id="contenido"></div>
+
+    <script src="../jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#botonClientes").click(function(){
+                $.getJSON("../JSON/clientessimples.json", function(data){
+                    $.each(data.clientes, function(index, cliente){
+                        var nombre = cliente.nombre;
+                        var h1 = $("<h1>",{
+                            "text":"Posicion" + index + ", Nombre: " + nombre
+                        });
+                        $("#contenido").append(h1);
+                    });
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>

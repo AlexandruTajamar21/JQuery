@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+<body>
+    <script src="../jquery-3.6.0.min.js"></script>
+    <script src="bootstrap.min.js" crossorigin="anonymous"></script>
+
+    <h1>Selector de Oficios</h1>
+    <select id="slDepartamentos"></select><br><br>
+    <label>Salario: </label><br>
+    <input type="text" id="cajasalario" class="form-control"/><br>
+
+    <button id="btMuestraEmpleados" onclick="cargaEmmpleados()"  class="btn btn-secondary btn-lg">Carga Empleados</button>
+    <button id="btModificaEmpleados" onclick="modificaEmpeleado()" class="btn btn-secondary btn-lg">ModificaEmpeleado</button> <br><br>
+
+    <table border="1" id="tablaEmpleados" class="table">
+        <thead class="table-dark">
+            <tr>
+                <th>IdEmpleado</th>
+                <th>Apellido</th>
+                <th>Oficio</th>
+                <th>Salario</th>
+                <th>Director</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    
+    <script>
+        var urlAPI ="https://apiempleadosaction.azurewebsites.net/"
+        $(document).ready(function(){
+            
+            cargarOficios();
+        });
+        function cargarOficios(){
+            var request = "api/Empleados/GetOficios/oficios";
+            $.getJSON(urlAPI + request,function(data){
+
+                var html = "";
+
+                $.each(data,function(key,value){
+
+                    var opcion = value;
+
+                    html+="<option>" + value + "</option>"
+                });
+                $("#slDepartamentos").append(html);
+            });
+        };
+
+        function cargaEmmpleados(){
+            var oficio = $("#slDepartamentos").val();
+            var request = "/api/Empleados/GetEmpleadosOficio/empleadosoficio/" + oficio;
+            $.getJSON(urlAPI + request,function(data){
+                var html = "";
+                $.each(data,function(key,value){
+
+                    html+= "<tr>";
+                    html+= "<td onclick=subeDatos("+value.idEmpleado+")>" + value.idEmpleado + "</td>";
+                    html+= "<td onclick=subeDatos("+value.idEmpleado+")>" + value.apellido + "</td>";
+                    html+= "<td onclick=subeDatos("+value.idEmpleado+")>" + value.oficio + "</td>";
+                    html+= "<td onclick=subeDatos("+value.idEmpleado+")>" + value.salario + "</td>";
+                    html+= "<td onclick=subeDatos("+value.idEmpleado+")>" + value.director + "</td>";
+                    html+= "<tr>";
+                });
+            $("#tablaEmpleados tbody").html(html);
+            });
+        }
+        function subeDatos(id){
+
+            var request = "/api/Empleados";
+            var idBuscado = id;
+            $.getJSON(urlAPI + request,function(data){
+                $.each(data,function(key,value){
+                    if (idBuscado == value.idEmpleado) {
+
+                        $("#cajasalario").val(value.salario);
+                    }
+                });
+            });
+        }
+        function modificaEmpeleado(){
+            var oficio = $("#slDepartamentos").val();
+            var salario = $("#cajasalario").val();
+            var request = "/api/Empleados/IncrementarSalarioOficios/"+ oficio+"/"+salario+"";
+            $.ajax({
+                "url":urlAPI + request,
+                "type":"PUT",
+                "contentType":"application/json"
+                ,success: function(){
+                    console.log("Modificado");
+                    cargaEmmpleados();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
